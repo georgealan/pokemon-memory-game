@@ -42,7 +42,6 @@ let hasFlippedCard = false;
 let firstCard, secondCard;
 let disableDecks = false;
 let matchedCard = 0;
-let musicSoundtrack = new Audio();
 
 // Generate unique ramdom numbers, without repeat any number, using Set().
 function generateRandomNumbers(limit, expectedNumbers) {
@@ -70,31 +69,6 @@ function flipCard() {
     // Second click
     secondCard = this;
     matchCards(firstCard.id, secondCard.id);
-}
-
-// Sound Effects
-function flipCardSound(cards) {
-    const audio = new Audio('assets/sounds/sound-effects/cardflip-sound.mp3');
-    cards.forEach(card => card.addEventListener('click', () => {
-        audio.play();
-    }));
-}
-
-function wrongMatchSound() {
-    const audio = new Audio('assets/sounds/sound-effects/wrong-sound.mp3');
-    audio.play();
-}
-
-// Change music track randomly, set a new song to play in background.
-function setSound() {
-    const randomNumbers = generateRandomNumbers(26, 26);
-
-    let path = 'assets/sounds/game-soundtrack/soundtrack-' + 
-        randomNumbers[Math.floor(Math.random() * randomNumbers.length)] + '.mp3';
-
-    musicSoundtrack.setAttribute('src', path);
-    musicSoundtrack.play();
-    musicSoundtrack.volume = 0.4;
 }
 
 function matchCards(firstCardId, secondCardId) {
@@ -161,11 +135,48 @@ function replaceAllCards() {
     createCards();
 }
 
+// Sound Effects
+function flipCardSound(cards) {
+    const audio = new Audio('assets/sounds/sound-effects/cardflip-sound.mp3');
+    cards.forEach(card => card.addEventListener('click', () => {
+        audio.play();
+    }));
+}
+
+function wrongMatchSound() {
+    const audio = new Audio('assets/sounds/sound-effects/wrong-sound.mp3');
+    audio.play();
+}
+
+function setSound() {
+    const randomNumbers = generateRandomNumbers(26, 26);
+    const audio = document.createElement('audio');
+
+    let path = 'assets/sounds/game-soundtrack/soundtrack-' + 
+        randomNumbers[Math.floor(Math.random() * randomNumbers.length)] + '.mp3';
+    
+    audio.setAttribute('src', path);
+    audio.setAttribute('type', 'audio/mp3');
+    audio.setAttribute('id', 'soundtrack');
+
+    document.body.append(audio);
+    audio.autoplay = true;
+    audio.controls = false;
+    audio.volume = 0.4;
+
+    waitSoundEnd(audio);
+}
+
+function removeSound() {
+    const oldAudio = document.getElementById('soundtrack');
+    oldAudio.remove();
+
+    setSound();
+}
+
+function waitSoundEnd(audio) {
+    audio.addEventListener('ended', removeSound, false);
+}
+
 // Here is where the soundtrack starts playing.
 setSound();
-
-/* 
-This event below track the end of the song, and when the song ends, it evoques setSound function
-that handle put other music in place, with that the background music soundtrack never ends.
-*/
-musicSoundtrack.addEventListener('ended', setSound, false);
