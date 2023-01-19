@@ -16,7 +16,7 @@ function createCards() { // will be in the function initGame()
         
         // imgBack.setAttribute('id', 'back-face-'+i);
         imgBack.setAttribute('class', 'back-face');
-        imgBack.setAttribute('src', 'assets/images/pokeball.png');
+        imgBack.setAttribute('src', 'assets/images/Back-Card.jpg');
         imgBack.setAttribute('alt', 'Image card back view');
     
         // Insert html elements in the DOM
@@ -42,6 +42,7 @@ let hasFlippedCard = false;
 let firstCard, secondCard;
 let disableDecks = false;
 let matchedCard = 0;
+let musicSoundtrack = new Audio();
 
 // Generate unique ramdom numbers, without repeat any number, using Set().
 function generateRandomNumbers(limit, expectedNumbers) {
@@ -84,22 +85,16 @@ function wrongMatchSound() {
     audio.play();
 }
 
-// FIX THIS FUNCTION
-function gameSoundtrack() {
+// Change music track randomly, set a new song to play in background.
+function setSound() {
     const randomNumbers = generateRandomNumbers(26, 26);
 
-    for(var i = 0; i < 26; i++) {
-        let music = new Audio('assets/sounds/game-soundtrack/soundtrack-' + randomNumbers[i] + '.mp3');
+    let path = 'assets/sounds/game-soundtrack/soundtrack-' + 
+        randomNumbers[Math.floor(Math.random() * randomNumbers.length)] + '.mp3';
 
-        music.play();
-        music.volume = 0.3;
-        console.log(music);
-        let trackEnd = music.ended();
-
-        if (trackEnd === false) {
-            continue
-        }
-    }
+    musicSoundtrack.setAttribute('src', path);
+    musicSoundtrack.play();
+    musicSoundtrack.volume = 0.4;
 }
 
 function matchCards(firstCardId, secondCardId) {
@@ -166,15 +161,11 @@ function replaceAllCards() {
     createCards();
 }
 
-gameSoundtrack();
+// Here is where the soundtrack starts playing.
+setSound();
 
-/*
-    TODOS: 
-    DONE! - a) Add music sound in the background, Pokemon theme music strumental.
-    DONE! - c) Add sound effects when: flip card: (sound effect flip), error match: (sound effect error).
-    b) Allow user take sound game on/off in the panel.
-    d) Add animations of congratulations in the end of the game before refresh all cards.
-    e) Add left panel, with menu panel bottom half that contain time, life, points, buttons etc.
-    f) Add image of Ash and Pikachu in the left panel top half.
-    (The partition of the left panel have to be a pokebol divisor, red color below and ash/pikach above).
+/* 
+This event below track the end of the song, and when the song ends, it evoques setSound function
+that handle put other music in place, with that the background music soundtrack never ends.
 */
+musicSoundtrack.addEventListener('ended', setSound, false);
