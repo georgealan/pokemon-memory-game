@@ -1,7 +1,10 @@
-function createCards() { // will be in the function initGame()
-    const randomNumbers = generateRandomNumbers(904, 15);
+import * as gameOptions from './game-options.js';
 
-    for(var i = 0; i < 15; i++) {
+function createCards() { // will be in the function initGame()
+    const totalCards = gameOptions.totalCards;
+    const randomNumbers = generateRandomNumbers(904, totalCards);
+    console.log('This is totalCards' + gameOptions.totalCards);
+    for(var i = 0; i < gameOptions.totalCards; i++) {
         const card = document.createElement('div');
         const imgFront = document.createElement('img');
         const imgBack = document.createElement('img');
@@ -9,12 +12,10 @@ function createCards() { // will be in the function initGame()
         card.setAttribute('id', 'card-'+i);
         card.setAttribute('class', 'card');
     
-        // imgFront.setAttribute('id', 'front-face-'+i);
         imgFront.setAttribute('class', 'front-face');
         imgFront.setAttribute('src', 'assets/images/pokemons/pokemon-' + randomNumbers[i] + '.png');
         imgFront.setAttribute('alt', 'Image card front view');
         
-        // imgBack.setAttribute('id', 'back-face-'+i);
         imgBack.setAttribute('class', 'back-face');
         imgBack.setAttribute('src', 'assets/images/Back-Card.jpg');
         imgBack.setAttribute('alt', 'Image card back view');
@@ -42,6 +43,8 @@ let hasFlippedCard = false;
 let firstCard, secondCard;
 let disableDecks = false;
 let matchedCard = 0;
+let percentage = document.querySelector(':root');
+percentage.style.setProperty('--percentage-min', gameOptions.percent + '%');
 
 // Generate unique ramdom numbers, without repeat any number, using Set().
 function generateRandomNumbers(limit, expectedNumbers) {
@@ -75,7 +78,8 @@ function matchCards(firstCardId, secondCardId) {
     if(firstCardId === secondCardId) {
         matchedCard++;
 
-        if(matchedCard == 15) {
+        // End of turn, refresh all cards.
+        if(matchedCard == gameOptions.totalCards) {
             setTimeout(() => {
                 replaceAllCards();
             }, 1500);
@@ -148,6 +152,7 @@ function wrongMatchSound() {
     audio.play();
 }
 
+// Change music track randomly, set a new song to play in background.
 function setSound() {
     const randomNumbers = generateRandomNumbers(26, 26);
     const audio = document.createElement('audio');

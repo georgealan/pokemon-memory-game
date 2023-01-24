@@ -8,35 +8,49 @@
     padding: 0;
 }
 
+:root {
+    --percentage-min: 0%;
+}
+
 body {
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: center;
     height: 100vh;
+    font-size: 1em;
     background: #E5E3E8;
     font-family: 'Roboto', sans-serif;
+    color: #fff;
+    font-weight: 700;
+    background: #F72C25;
+    /* background: linear-gradient(253deg, #8703CF, #B60972, #F72C25, #F7B32B);
+    background-size: 300% 300%;
+    animation: Background 20s ease infinite; */
 }
 
 #board-game {
-    display: flex;
-    width: 55%;
-    height: 95vh;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5em;
-    margin-right: 1.7em;
-    background: #f8f8f8;
+    display: grid;
+
+    /* Set the width and height of each card in the grid */
+    grid-template-columns: repeat(auto-fill, minmax(min(var(--percentage-min), 270px), 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(min(var(--percentage-min), 270px), 1fr));
+
+    gap: 0.4rem;
+    max-width: 980px;
+    min-width: 360px;
+    max-height: 900px;
+    min-height: 360px;
+    width: 100vw;
+    height: 100vh;
+    padding: 1em;
+    background: rgba(255, 255, 255, 0.6);
     border-radius: 0.5em;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     perspective: 1000px;
 }
 
 .card {
-    width: calc(15.7% - 10px);
-    height: calc(18.7% - 10px);
-    margin: 5px;
-    position: relative;
+    position: relative; /* Related to place the images under each other */
     cursor: pointer;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     transform: scale(1);
@@ -57,6 +71,7 @@ body {
     animation: shake 0.35s ease-in-out;
 }
 
+/* //////// ANIMATIONS //////// */
 @keyframes shake {
     0%, 100%{
         transform: translateX(0);
@@ -75,83 +90,65 @@ body {
     }
 }
 
+@keyframes Background {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 .front-face,
 .back-face {
     width: 100%;
     height: 100%;
-    /* padding: 6px; */
-    position: absolute;
-    background: #fff;
     backface-visibility: hidden;
     border-radius: 0.3em;
 }
 
 .front-face {
+    position: absolute; /* Positioning image below to the image back */ 
+    background: #fff;
     transform: rotateY(180deg);
 }
 
 
-/* Responsivity Media Queries */
-@media screen and (max-width: 1550px) {
-    #board-game {
-        width: 63%;   
-    }
-}
+/* ////////// MEDIA QUERIES ////////// */
 
-@media screen and (max-width: 1300px) {
-    #board-game {
-        width: 73%;   
-    }
-}
-
-@media screen and (max-width: 1100px) {
-    #board-game {
-        width: 83%;   
-    }
-}
-
-@media screen and (max-width: 980px) {
-    #board-game {
-        width: 95%;
-        height: 60vh;
-        margin-right: 0; 
-    }
-    
-    body {
-        justify-content: center;
-    }
-}
-
-@media screen and (max-width: 500px) {
-    #board-game {
-        width: 100%;   
-    }
-}
-
-@media screen and (max-width: 470px) {
-    #board-game {
-        width: 100%;
-        height: 50vh;
-        padding: 0.2em;
-        margin-right: 0;
-    }
-}
-
-@media screen and (max-width: 340px) {
-    #board-game {
-        padding: 0;
-        margin-right: 0;
-    }
-}
-
-@media screen and (max-width: 320px) {
-    #board-game {
-        padding: 0;
-        height: 50vh;
-    }
-
+/* MOBILE DEVICES */
+@media screen and (max-width: 500px) and (orientation: portrait) {
     body {
         align-items: flex-end;
     }
+
+    #board-game {
+        gap: 0.2rem;
+        padding: 0.3rem;
+        height: 90vh;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
 }
 
+@media screen and (max-height: 460px) and (orientation: landscape) {
+    body {
+        justify-content: end;
+    }
+
+    #board-game {
+        gap: 0.2rem;
+        padding: 0.3rem;
+        width: 90vw;
+    }
+
+    h2 {
+        margin: 0.3rem 0 2rem 0;
+        font-size: 2em;
+    }
+}

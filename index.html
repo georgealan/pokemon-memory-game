@@ -4,12 +4,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/menu.css">
     <link rel="stylesheet" href="styles/style.css">
     <title>Pokemon Memory Game</title>
 </head>
 <body>
-    <section id="board-game"></section>
+    <div id="menu">
+        <div class="logo">
+            <img src="assets/images/pokemon-logo.png" alt="Pokemon Game Logo">
+        </div>
 
-    <script src="scripts/script.js"></script>
+        <section class="options">
+            <h2>Game Options</h2>
+            <form name="form-options">
+                <label for="number-of-cards">Choose number of cards to play (between 04 to 40):</label>
+                <input type="number" id="number-of-cards" name="number-of-cards" value="4" min="4" max="40" required>
+                <div>
+                    <input type="button" id="new-game" onclick="runGame()" class="btn-start-game" value="START GAME">
+                </div>
+            </form>
+            <!-- <button id="new-game" onclick="runGame()" class="btn-start-game" form="form-options">start game</button> -->
+        </section>
+    </div>
+
+    <section id="board-game"></section>
+    
+    <script src="scripts/script.js" type="module"></script>
+    <script src="scripts/game-options.js" type="module"></script>
+    <script>
+        document.getElementById('board-game').style.display = 'none';
+        var runGame = function() {
+            document.getElementById('menu').style.display = 'none';
+            document.getElementById('board-game').style.display = 'grid';
+        }
+    </script>
 </body>
 </html>

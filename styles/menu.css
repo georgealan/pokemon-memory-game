@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+@font-face {
+    font-family: pokemon-solid;
+    src: url('../assets/fonts/pokemon-solid.ttf');
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+#menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em;
+    height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
+    font-weight: 700;
+}
+
+h1,
+h2 {
+    font-family: 'pokemon-solid', cursive;
+    color: #FAC705;
+    -webkit-text-stroke: 0.05rem #3D64B8;
+    text-shadow:
+        0.05rem 0.05rem 0 #3D64B8,
+        -1px -1px 0 #3D64B8,  
+        1px -1px 0 #3D64B8,
+        -1px 1px 0 #3D64B8,
+        1px 1px 0 #3D64B8;
+    text-align: center;
+    line-height: 1.1em;
+}
+
+h2 {
+    margin: 1.5rem 0;
+    font-size: 3em;
+}
+
+.logo {
+    width: 50vw;
+}
+
+.logo img {
+    width: 100%;
+}
+
+.options {
+    text-align: center;
+    width: 50vw;
+    height: 40vh;
+}
+
+.btn-start-game {
+    text-transform: uppercase;
+    margin-top: 10px;
+}
+
+/* ////////// MEDIA QUERIES ////////// */
+
+/* MOBILE DEVICES */
+@media screen and (max-width: 500px) and (orientation: portrait) {
+    .logo {
+        width: 70vw;
+    }
+        
+    .options {
+        width: 70vw;
+        height: 40vh;
+    }
+}
+
+@media screen and (max-height: 460px) and (orientation: landscape) {
+    #menu {
+        margin: 0 auto;
+    }
+
+    .logo {
+        width: 50vw;
+    }
+        
+    .options {
+        width: 70vw;
+        height: 40vh;
+    }
+}
