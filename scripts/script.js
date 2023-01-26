@@ -1,15 +1,35 @@
-import * as gameOptions from './game-options.js';
+var numbersForBoard=[];
+let percent;
+let totalCards;
+let percentage = document.querySelector(':root');
+
+document.getElementById('board-game').style.display = 'none';
+function runGame() {
+    document.getElementById('menu').style.display = 'none';
+    document.getElementById('board-game').style.display = 'grid';
+    createCards();
+}
+
+let inputNumber = document.querySelector("input[type='submit']");
+inputNumber.addEventListener('click', getNumber, false);
+
+function getNumber(event) {
+    const num = document.getElementById('numberOfCards').value;
+    numbersForBoard.push(num);
+    numbersForBoard.push(percent);
+    event.preventDefault();
+}
 
 function createCards() { // will be in the function initGame()
-    const totalCards = gameOptions.totalCards;
-    const randomNumbers = generateRandomNumbers(904, totalCards);
-    console.log('This is totalCards' + gameOptions.totalCards);
-    for(var i = 0; i < gameOptions.totalCards; i++) {
+    percent = getPercent(numbersForBoard[0]);
+    percentage.style.setProperty('--percentage-min', percent + '%');
+    const randomNumbers = generateRandomNumbers(904, numbersForBoard[0]);
+    for(var i = 0; i < numbersForBoard[0]; i++) {
         const card = document.createElement('div');
         const imgFront = document.createElement('img');
         const imgBack = document.createElement('img');
     
-        card.setAttribute('id', 'card-'+i);
+        card.setAttribute('id', 'card-' + i);
         card.setAttribute('class', 'card');
     
         imgFront.setAttribute('class', 'front-face');
@@ -37,14 +57,38 @@ function createCards() { // will be in the function initGame()
     shuffleCards(cards); // Sort all cards in an aleatory way
 }
 
+function getPercent(totalCards) {
+    if(totalCards <= 4) {
+        percent = 30;
+    } else if (totalCards >= 5 && totalCards <= 8) {
+        percent = 20;
+    } else if (totalCards <= 10) {
+        percent = 19.4;
+    } else if (totalCards <= 12) {
+        percent = 19;
+    } else if (totalCards <= 15) {
+        percent = 16;
+    } else if (totalCards <= 18) {
+        percent = 15;
+    } else if (totalCards <= 21) {
+        percent = 13.6;
+    } else if (totalCards <= 24) {
+        percent = 13;
+    } else if (totalCards <= 32) {
+        percent = 11;
+    } else if (totalCards <= 40) {
+        percent = 10;
+    }
+
+    return percent;
+}
+
 createCards();
 
 let hasFlippedCard = false;
 let firstCard, secondCard;
 let disableDecks = false;
 let matchedCard = 0;
-let percentage = document.querySelector(':root');
-percentage.style.setProperty('--percentage-min', gameOptions.percent + '%');
 
 // Generate unique ramdom numbers, without repeat any number, using Set().
 function generateRandomNumbers(limit, expectedNumbers) {
@@ -79,7 +123,7 @@ function matchCards(firstCardId, secondCardId) {
         matchedCard++;
 
         // End of turn, refresh all cards.
-        if(matchedCard == gameOptions.totalCards) {
+        if(matchedCard == numbersForBoard[0]) {
             setTimeout(() => {
                 replaceAllCards();
             }, 1500);
